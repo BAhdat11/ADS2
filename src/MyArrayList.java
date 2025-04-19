@@ -11,7 +11,9 @@ public class MyArrayList<T> implements MyList<T> {
     private void ensureCapacity() {
         if (size == elements.length) {
             Object[] newArr = new Object[elements.length * 2];
-            System.arraycopy(elements, 0, newArr, 0, size);
+            for (int i = 0; i < size; i++) {
+                newArr[i] = elements[i];
+            }
             elements = newArr;
         }
     }
@@ -32,7 +34,9 @@ public class MyArrayList<T> implements MyList<T> {
     public void add(int index, T item) {
         checkIndexForAdd(index);
         ensureCapacity();
-        System.arraycopy(elements, index, elements, index + 1, size - index);
+        for (int i = size; i > index; i--) {
+            elements[i] = elements[i - 1];
+        }
         elements[index] = item;
         size++;
     }
@@ -46,7 +50,9 @@ public class MyArrayList<T> implements MyList<T> {
     @Override
     public void remove(int index) {
         checkIndex(index);
-        System.arraycopy(elements, index + 1, elements, index, size - index - 1);
+        for (int i = index; i < size - 1; i++) {
+            elements[i] = elements[i + 1];
+        }
         size--;
         elements[size] = null;
     }
@@ -70,17 +76,29 @@ public class MyArrayList<T> implements MyList<T> {
         if (index < 0 || index > size) throw new IndexOutOfBoundsException();
     }
 
-    public void addFirst(T item) { add(0, item); }
+    public void addFirst(T item) {
+        add(0, item);
+    }
 
-    public void addLast(T item) { add(item); }
+    public void addLast(T item) {
+        add(item);
+    }
 
-    public T getFirst() { return get(0); }
+    public T getFirst() {
+        return get(0);
+    }
 
-    public T getLast() { return get(size - 1); }
+    public T getLast() {
+        return get(size - 1);
+    }
 
-    public void removeFirst() { remove(0); }
+    public void removeFirst() {
+        remove(0);
+    }
 
-    public void removeLast() { remove(size - 1); }
+    public void removeLast() {
+        remove(size - 1);
+    }
 
     public int indexOf(Object obj) {
         for (int i = 0; i < size; i++)
@@ -100,7 +118,9 @@ public class MyArrayList<T> implements MyList<T> {
 
     public Object[] toArray() {
         Object[] arr = new Object[size];
-        System.arraycopy(elements, 0, arr, 0, size);
+        for (int i = 0; i < size; i++) {
+            arr[i] = elements[i];
+        }
         return arr;
     }
 
